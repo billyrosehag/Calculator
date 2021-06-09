@@ -22,17 +22,16 @@ namespace Calculator
                 //Program menu
                 Console.WriteLine("---- Welcome to the Calculator ---- ");
                 
-                
                 Console.WriteLine("1. Addition");
-                Console.WriteLine("2. Subtract");
+                Console.WriteLine("2. Subtraction");
                 Console.WriteLine("3. Multiplication");
                 Console.WriteLine("4. Division");
                 Console.WriteLine("5. Power of");
-                Console.WriteLine("6. Remainder");
+                Console.WriteLine("6. Remainder of");
                 Console.WriteLine("7. Exit program");
 
-                Console.Write("Choose Type of operation by inputting the corresponding number. " +
-                            "\n\nWhat type of operation do you want to use: ");
+                Console.Write("\nChoose Type of operator by inputting the corresponding number." +
+                            "\n\nWhat type of operator do you want to use: ");
 
 
                 operation = PlayerInputToInt(1, exitNumber);
@@ -47,7 +46,7 @@ namespace Calculator
 
                 Console.Clear();
 
-                // Calculation Program Begins Here
+                // CALCULATIONS BEGIN HERE
 
                 Console.Write(OperationHeadline(operation)+"\nWhat is the first number: ");
                 numb1 = PlayerInputToDouble();
