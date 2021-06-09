@@ -6,16 +6,20 @@ namespace Calculator
     {
         static void Main(string[] args)
         {
-
+            //Values used to calculate player input
             double numb1;
             double numb2;
-            double operation = 0;
+            //What type of calculation 
+            int operation = 0;
+            //Number used to exit program
+            int exitNumber = 7;
+            //String that is reused within each calculation
             string resultString = "\nResulted Calculation: ";
 
             do
             {
                 Console.Clear();
-                
+                //Program menu
                 Console.WriteLine("---- Welcome to the Calculator ---- ");
                 
                 
@@ -25,32 +29,35 @@ namespace Calculator
                 Console.WriteLine("4. Division");
                 Console.WriteLine("5. Power of");
                 Console.WriteLine("6. Remainder");
-                Console.WriteLine("10. Exit program");
+                Console.WriteLine("7. Exit program");
 
                 Console.Write("Choose Type of operation by inputting the corresponding number. " +
-                            "\nWhat type of operation do you want to use: ");
+                            "\n\nWhat type of operation do you want to use: ");
 
-                operation = PlayerNumberInput();
 
-                if(operation == 10)
+                operation = PlayerInputToInt(1, exitNumber);
+
+                //Exit program if player has inserted the exitNumber number.
+                if(operation == exitNumber)
                 { 
-                    Console.Write("The program will quit. Press any key to continue: ");
+                    Console.Write("The program will exit. Press any key to continue: ");
                     Console.ReadKey();
                     break;
                 };
 
-                Console.Write("\nWhat is the first number: ");
-                numb1 = PlayerNumberInput();
+                Console.Clear();
+
+                // Calculation Program Begins Here
+
+                Console.Write(OperationHeadline(operation)+"\nWhat is the first number: ");
+                numb1 = PlayerInputToDouble();
 
                 //Checks what will be said as the second value will be inputted.
-                string operationType = 
-                        operation == 1 ? "Added with number: " : operation == 2 ? "Subtracted by: " 
-                       :operation == 3 ? "Multiplied by: " : operation == 4 ? "Divided by: " : operation == 5 ? "Power of: " 
-                       :operation == 6 ? "Remainder of: " :"";
+                Console.Write(OperationType(operation));
 
-                Console.Write(operationType);
-                numb2 = PlayerNumberInput();
+                numb2 = PlayerInputToDouble();
 
+                //Result to present decided through a switch
                 switch (operation)
                 {
                     case 1:
@@ -66,7 +73,15 @@ namespace Calculator
                         break;
 
                     case 4:
-                        Console.WriteLine(resultString + Division(numb1, numb2));
+                        if (numb1 == 0 || numb2 == 0)
+                        {
+                            Console.WriteLine("Divided by 0 is not allowed.");
+                        }
+                        else 
+                        {
+                            Console.WriteLine(resultString + Division(numb1, numb2));
+                        }
+                        
                         break;
 
                     case 5:
@@ -81,18 +96,16 @@ namespace Calculator
                         Console.WriteLine("Invalid input. Try again.");
                         break;
                 }
+
                 Console.Write("Press any key to continue: ");
                 Console.ReadKey();
 
-            } while (operation!=10);
+            } while (operation!=exitNumber);
+           
+        }// Main method ends here
 
-
-
-            
-        }
-
-        //Checks to see that a player input is a number
-        static double PlayerNumberInput() {
+        //Checks to see that a player input is a double
+        static double PlayerInputToDouble() {
 
             bool isNumber;
             double result = 0;
@@ -107,6 +120,67 @@ namespace Calculator
             } while (!isNumber);
 
             return result;
+        }
+        
+        //Checks to see that a player input is a int
+        static int PlayerInputToInt()
+        {
+
+            bool isNumber;
+            int result = 0;
+
+            do
+            {
+                isNumber = int.TryParse(Console.ReadLine(), out result);
+                if (!isNumber)
+                {
+                    Console.Write("That is an invalid input, try again: ");
+                }
+            } while (!isNumber);
+
+            return result;
+        }
+
+        //Makes it so a player needs to input a int within a certain range
+        static int PlayerInputToInt(int start, int end)
+        {
+
+            bool isNumber;
+            int result = 0;
+
+            do
+            {
+                isNumber = int.TryParse(Console.ReadLine(), out result);
+                if (!isNumber || result < start || result > end)
+                {
+                    Console.Write("That is an invalid input, try again: ");
+                }
+            } while (!isNumber || result < start || result > end);
+
+            return result;
+        }
+
+        //Decides the headline shown when performing the calculation
+        static string OperationHeadline(int operation)
+        {
+            string operationHeadline =
+                        operation == 1 ? "Addition" : operation == 2 ? "Subtraction"
+                       : operation == 3 ? "Multiplication" : operation == 4 ? "Division"
+                       : operation == 5 ? "Power of" : operation == 6 ? "Remainder" : "";
+
+            return "---- "+ operationHeadline + " ----";
+        }
+
+        //Goes through what operation type the player has inputted, and shows a different message depending on that.
+        static string OperationType(int operation)
+        {
+             string operationAnswer =
+                        operation == 1 ? "Added with number: " : operation == 2 ? "Subtracted by: "
+                       : operation == 3 ? "Multiplied by: " : operation == 4 ? "Divided by: "
+                       : operation == 5 ? "Power of: " : operation == 6 ? "Remainder of: " : "";
+
+            return operationAnswer;
+
         }
 
         //Method for addition
@@ -164,26 +238,7 @@ namespace Calculator
 
         }
 
-
-
-
     }
-
-
-
-
-
-
-
-    /*
-     Required Features:
-    -The Program should be able to perform a basic mathematical operations 
-    (Math has methods for mor advanced operations if you include them).
-    - Addition, subtraction, division, multiplication, etc...
-    - The program should keep running until the user chooses to end it.
-
-
-     */
 
 }
 
